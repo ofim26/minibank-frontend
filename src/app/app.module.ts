@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms'
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { AuthGuard } from './auth.guard';
+import { CheckRut } from "simple-rut-validator";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';

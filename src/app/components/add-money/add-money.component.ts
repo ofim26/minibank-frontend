@@ -10,7 +10,7 @@ export class AddMoneyComponent implements OnInit {
 
   balance = {
     userId: localStorage.getItem('userId'),
-    amount: 0
+    amount: undefined
   }
   actualBalance = ""
   alertMessage = ""

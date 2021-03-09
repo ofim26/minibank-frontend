@@ -1,5 +1,8 @@
 <div class="row">
     <div class="col-md-4 mx-auto">
+        <div *ngIf="alertState" class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{alertMessage}}<button type="button" (click)="alertClose()" class="btn-close" aria-label="Close"></button>
+        </div>
         <div class="card">
             <div class="card-header">
                 <strong>Ingresar</strong>
@@ -8,12 +11,14 @@
                 <form (submit)="signIn()">
                     <div class="form-group">
                         <div class="mb-3">
-                            <label for="email" class="form-label">Correo</label>
-                            <input [(ngModel)]="user.email" type="email" name="uaser.email" class="form-control" id="email" placeholder="name@example.com" required>
+                            <label for="email" class="form-label">Correo electrónico</label>
+                            <input [(ngModel)]="user.email" type="email" [email]="true" name="email" #email="ngModel" class="form-control" id="email" placeholder="name@example.com" (change)="alertState = false" required>
+                            <p class="small mt-2 text-danger" *ngIf="email.invalid && (email.touched)">Ingrese un email valido</p>
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Contraseña</label>
-                            <input [(ngModel)]="user.password" name="uaser.password" type="password" class="form-control" id="password" required>
+                            <input [(ngModel)]="user.password" name="uaser.password" type="password" #password="ngModel" class="form-control" id="password" required>
+                            <p class="small mt-2 text-danger" *ngIf="password.invalid && (password.touched)">Ingrese una contraseña</p>
                         </div>
                         <div class="d-grid gap-2">
                             <button class="btn btn-primary">Enviar</button>

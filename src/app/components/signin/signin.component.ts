@@ -15,12 +15,21 @@ export class SigninComponent implements OnInit {
     email: "",
     password: ""
   }
+  alertMessage = ""
+  alertState = false
 
   constructor(
     private authService: AuthService,
     private router: Router) { }
 
   ngOnInit(): void {
+  }
+
+  /**
+   * alertClose
+   */
+  alertClose(){
+    this.alertState = false
   }
   
   signIn(){
@@ -30,7 +39,11 @@ export class SigninComponent implements OnInit {
         localStorage.setItem('userId', res.id);
         this.router.navigate(['/add-money']);
       },
-      err => console.log(err)
+      err => {
+        this.alertState = true
+        this.alertMessage = "Tu usuario o contraseña son incorrectos"
+        console.log(err)
+      }
     )
   }
 }

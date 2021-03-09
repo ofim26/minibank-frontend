@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BalanceService } from '../../services/balance.service'
+import { checkRut } from "simple-rut-validator";
 
 @Component({
   selector: 'app-transfer-money',
@@ -10,15 +11,25 @@ export class TransferMoneyComponent implements OnInit {
   
   dataTransfer = {
     userId: localStorage.getItem('userId'),
-    amount: 0,
-    rut: ""
+    amount: undefined,
+    rut: undefined
   }
   actualBalance = ""
+  alertMessage = ""
+  alertState = false
+
 
   constructor(private balanceService: BalanceService) { }
 
   ngOnInit(): void {
     this.getBalance()
+  }
+
+  /**
+   * alertClose
+   */
+  alertClose(){
+    this.alertState = false
   }
 
   /**
@@ -28,7 +39,6 @@ export class TransferMoneyComponent implements OnInit {
     this.balanceService.getBalance(localStorage.getItem('userId')).subscribe(
       res => {
         this.actualBalance = res.balance
-        console.log(res);
       },
       err => console.log(err)
     )
@@ -40,8 +50,9 @@ export class TransferMoneyComponent implements OnInit {
   transfer(){
     this.balanceService.transfer(this.dataTransfer).subscribe(
       res => {
-        console.log(res);
         this.getBalance()
+        this.alertMessage = "Transferencia realizada exitosamente :D"
+        this.alertState = true
       },
       err => console.log(err)
     )

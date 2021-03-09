@@ -10,14 +10,23 @@ export class WithdrawMoneyComponent implements OnInit {
 
   balance = {
     userId: localStorage.getItem('userId'),
-    amount: 0
+    amount: undefined
   }
   actualBalance = ""
+  alertMessage = ""
+  alertState = false
 
   constructor(private balanceService: BalanceService) { }
 
   ngOnInit(): void {
     this.getBalance()
+  }
+
+  /**
+   * alertClose
+   */
+  alertClose(){
+    this.alertState = false
   }
 
   /**
@@ -27,7 +36,6 @@ export class WithdrawMoneyComponent implements OnInit {
     this.balanceService.getBalance(localStorage.getItem('userId')).subscribe(
       res => {
         this.actualBalance = res.balance
-        console.log(res);
       },
       err => console.log(err)
     )
@@ -39,8 +47,9 @@ export class WithdrawMoneyComponent implements OnInit {
   withdraw(){
     this.balanceService.withdraw(this.balance).subscribe(
       res => {
-        console.log(res);
         this.getBalance()
+        this.alertMessage = "Retiro realizado exitosamente :D"
+        this.alertState = true
       },
       err => console.log(err)
     )
