@@ -1,0 +1,27 @@
+<div class="row">
+    <div class="col-md-4 mx-auto">
+        <div class="card mb-3">
+            <div class="card-body">
+                Saldo: {{actualBalance}}
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <strong>Retiro de saldo</strong>
+            </div>
+            <div class="card-body">
+                <form (submit)="withdraw()">
+                    <div class="form-group">
+                        <div class="mb-3">
+                            <label for="amount" class="form-label">Monto</label>
+                            <input [(ngModel)]="balance.amount" type="number" name="balance.amount" class="form-control" id="amount" placeholder="$0" required autofocus>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-primary">Retirar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,31 @@
+<div class="row">
+    <div class="col-md-4 mx-auto">
+        <div class="card mb-3">
+            <div class="card-body">
+                Saldo: {{actualBalance}}
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <strong>Transferencia</strong>
+            </div>
+            <div class="card-body">
+                <form (submit)="transfer()">
+                    <div class="form-group">
+                        <div class="mb-3">
+                            <label for="amount" class="form-label">Monto</label>
+                            <input [(ngModel)]="dataTransfer.amount" type="number" name="dataTransfer.amount" class="form-control" id="amount" placeholder="$0" required autofocus>
+                        </div>
+                        <div class="mb-3">
+                            <label for="rut" class="form-label">Rut</label>
+                            <input [(ngModel)]="dataTransfer.rut" type="text" name="dataTransfer.rut" class="form-control" id="rut" placeholder="261225820" required autofocus>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-primary">Transferir</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

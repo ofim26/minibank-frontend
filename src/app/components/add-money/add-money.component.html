@@ -1,0 +1,27 @@
+<div class="row">
+    <div class="col-md-4 mx-auto">
+        <div class="card mb-3">
+            <div class="card-body">
+                Saldo: {{actualBalance}}
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div *ngIf="alertState" class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{alertMessage}}<button type="button" (click)="alertClose()" class="btn-close" aria-label="Close"></button>
+                </div>
+                <form (submit)="add()">
+                    <div class="form-group">
+                        <div class="mb-3">
+                            <label for="amount" class="form-label">Monto</label>
+                            <input [(ngModel)]="balance.amount" min="0" type="number" name="balance.amount" class="form-control" id="amount" placeholder="$0" required autofocus>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-primary">Cargar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
