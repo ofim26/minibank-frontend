@@ -8,21 +8,30 @@ import { Router } from '@angular/router'
   styleUrls: ['./movements.component.sass']
 })
 export class MovementsComponent implements OnInit {
-
   movements:any = []
-  userId = localStorage.getItem('userId')
+  data = {
+    userId: localStorage.getItem('userId'),
+    itemsPerPage: 10,
+    currentPage: 0,
+    total: 0
+  }
 
   constructor(
     private balanceService: BalanceService,
     private router: Router) { }
 
   ngOnInit(): void {
-    this.balanceService.findAllByUserId(this.userId).subscribe(
-      res => {
-        this.movements = res;
-      },
-      err => console.log(err)
-    )
+    this.getMovements(this.data.currentPage)
   }
-}
 
+  getMovements(page:number){
+    this.data.currentPage = page;
+    this.balanceService.getMovements(this.data).subscribe(
+      res => {
+        this.movements = res.rows
+        this.data.total = res.count
+      },
+        err => console.log(err)
+      )
+    }
+  }

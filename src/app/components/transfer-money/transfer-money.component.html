@@ -6,7 +6,7 @@
                 <strong>Transferencia</strong>
             </div>
             <div class="card-body">
-                <div *ngIf="alertState" class="alert alert-success alert-dismissible fade show" role="alert">
+                <div *ngIf="alertState" class="alert alert-dismissible fade show" [ngClass]="alertType === 'success' ? 'alert-success': 'alert-danger'" role="alert">
                     {{alertMessage}}<button type="button" (click)="alertClose()" class="btn-close" aria-label="Close"></button>
                 </div>
                 <form (submit)="transfer()">
@@ -21,8 +21,9 @@
                         </div>
                         <div class="mb-3">
                             <label for="rut" class="form-label">Rut de destinatario <span class="text-danger">*</span></label>
-                            <input id="rut" name="rut" [(ngModel)]="dataTransfer.rut" #rut="ngModel" min="0" type="text" (change)="alertState = false" class="form-control" placeholder="261225830" required>
-                            <p class="small mt-1 text-danger" *ngIf="rut.invalid && (rut.touched)">Ingrese un Rut valido</p>
+                            <input id="rut" name="rut" [(ngModel)]="dataTransfer.rut" (blur)="rv()" #rut="ngModel" min="0" type="text" (change)="alertState = false" class="form-control" placeholder="26122583-0" required>
+                            <p class="small mt-1 text-danger" *ngIf="rut.invalid && rut.touched && !rut">Ingrese un Rut valido</p>
+                            <p class="small mt-1 text-danger" *ngIf="rut.touched && !rutValidator">Ingrese un Rut valido</p>
                         </div>
                         <div class="d-grid gap-2">
                             <button class="btn btn-primary" [disabled]="!dataTransfer.amount">Transferir</button>

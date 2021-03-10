@@ -14,8 +14,8 @@ export class BalanceService {
    * findAllByUserId
    * @param user 
    */
-  findAllByUserId(userId:any){
-    return this.http.get<any>(this.URL + '/movements/'+userId);
+  getMovements(data:object){
+    return this.http.post<any>(this.URL + '/movements/', data);
   }
 
   /**
