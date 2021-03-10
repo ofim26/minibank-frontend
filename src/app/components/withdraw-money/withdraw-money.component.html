@@ -6,7 +6,7 @@
                 <strong>Retiro de saldo</strong>
             </div>
             <div class="card-body">
-                <div *ngIf="alertState" class="alert alert-success alert-dismissible fade show" role="alert">
+                <div *ngIf="alertState" class="alert alert-dismissible fade show" [ngClass]="alertType === 'success' ? 'alert-success': 'alert-danger'" role="alert">
                     {{alertMessage}}<button type="button" (click)="alertClose()" class="btn-close" aria-label="Close"></button>
                 </div>
                 <form (submit)="withdraw()">

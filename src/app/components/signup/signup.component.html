@@ -5,26 +5,34 @@
                 <strong>Registro</strong>
             </div>
             <div class="card-body">
+                <div *ngIf="alertState" class="alert alert-dismissible fade show" [ngClass]="alertType === 'success' ? 'alert-success': 'alert-danger'" role="alert">
+                    {{alertMessage}}<button type="button" (click)="alertClose()" class="btn-close" aria-label="Close"></button>
+                </div>
                 <form (submit)="signUp()">
                     <div class="form-group">
                         <div class="mb-3">
-                            <label for="name" class="form-label">Nombre</label>
-                            <input [(ngModel)]="user.name" type="text" name="uaser.name" class="form-control" id="name" placeholder="Pedro" required autofocus>
+                            <label for="name" class="form-label">Nombre <span class="text-danger">*</span></label>
+                            <input [(ngModel)]="user.name" type="text" name="uaser.name" name="name" #name="ngModel" class="form-control" id="name" placeholder="Nombre" required>
+                            <p class="small mt-1 text-danger" *ngIf="name.invalid && name.touched">Ingrese un nombre</p>
                         </div>
                         <div class="mb-3">
-                            <label for="rut" class="form-label">Rut</label>
-                            <input [(ngModel)]="user.rut" type="text" name="uaser.rut" class="form-control" id="rut" placeholder="26122583-2" required>
+                            <label for="rut" class="form-label">Rut <span class="text-danger">*</span></label>
+                            <input id="rut" name="rut" [(ngModel)]="user.rut" (blur)="rv()" #rut="ngModel" min="0" type="text" (change)="alertState = false" class="form-control" placeholder="00000000-0" required>
+                            <p class="small mt-1 text-danger" *ngIf="rut.invalid && rut.touched && !rut">Ingrese un Rut valido</p>
+                            <p class="small mt-1 text-danger" *ngIf="rut.touched && !rutValidator">Ingrese un Rut valido</p>
                         </div>
                         <div class="mb-3">
-                            <label for="email" class="form-label">Correo</label>
-                            <input [(ngModel)]="user.email" type="email" name="uaser.email" class="form-control" id="email" placeholder="name@example.com" required>
+                            <label for="email" class="form-label">Correo <span class="text-danger">*</span></label>
+                            <input [(ngModel)]="user.email" type="email" name="uaser.email" #email="ngModel" [email]="true" class="form-control" id="email" placeholder="name@example.com" required>
+                            <p class="small mt-1 text-danger" *ngIf="email.invalid && email.touched">Ingrese un email</p>
                         </div>
                         <div class="mb-3">
-                            <label for="password" class="form-label">Contraseña</label>
-                            <input [(ngModel)]="user.password" name="uaser.password" type="password" class="form-control" id="password" required>
+                            <label for="password" class="form-label">Contraseña <span class="text-danger">*</span></label>
+                            <input [(ngModel)]="user.password" name="uaser.password" #password="ngModel" type="password" class="form-control" id="password" required>
+                            <p class="small mt-1 text-danger" *ngIf="password.invalid && password.touched">Ingrese una contraseña</p>
                         </div>
                         <div class="d-grid gap-2">
-                            <button class="btn btn-primary">Enviar</button>
+                            <button class="btn btn-primary">Registrar</button>
                         </div>
                     </div>
                 </form>

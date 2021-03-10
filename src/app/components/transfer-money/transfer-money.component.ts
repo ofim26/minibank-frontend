@@ -19,7 +19,6 @@ export class TransferMoneyComponent implements OnInit {
   alertType = "success"
   rutValidator = false
 
-
   constructor(private balanceService: BalanceService) { }
 
   ngOnInit(): void {
@@ -57,8 +56,6 @@ export class TransferMoneyComponent implements OnInit {
         this.alertType = 'success'
       },
       err => {
-        console.log(parseInt(this.actualBalance.slice(1)))
-        console.log(parseInt(this.dataTransfer.amount))
         this.alertState = true
         this.alertType = 'danger'
         if(err.error.message === "USER_NOT_EXIST" && parseInt(this.actualBalance.slice(1)) < parseInt(this.dataTransfer.amount)){
@@ -78,7 +75,7 @@ export class TransferMoneyComponent implements OnInit {
    * @param rutString 
    */
   rv(){
-    if(!this.dataTransfer.rut.includes("-")){
+    if(!this.dataTransfer.rut.includes("-") && this.dataTransfer.rut != ""){
       this.dataTransfer.rut = this.dataTransfer.rut.slice(0,-1) + "-" + this.dataTransfer.rut.slice(-1)
     }
     this.rutValidator = this.checkRut(this.dataTransfer.rut)

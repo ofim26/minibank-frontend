@@ -15,6 +15,7 @@ export class WithdrawMoneyComponent implements OnInit {
   actualBalance = ""
   alertMessage = ""
   alertState = false
+  alertType = "success"
 
   constructor(private balanceService: BalanceService) { }
 
@@ -50,8 +51,16 @@ export class WithdrawMoneyComponent implements OnInit {
         this.getBalance()
         this.alertMessage = "Retiro realizado exitosamente :D"
         this.alertState = true
+        this.alertType = 'success'
       },
-      err => console.log(err)
+      err => {
+        this.alertState = true
+        this.alertType = 'danger'
+        if(err.error.message === "THE_AMOUNT_EXCEEDS_THE_BALANCE"){
+          this.alertMessage = "No tienes suficiente saldo para realizar la transferencia"
+        }
+        console.log(err)
+      }
     )
   }
 }
