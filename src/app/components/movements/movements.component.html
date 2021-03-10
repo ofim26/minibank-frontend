@@ -3,7 +3,7 @@
       <strong>Listado de movimientos</strong>
   </div>
 <div class="card-body p-0">
-  <table class="table table-striped" *ngIf="movements.rows">
+  <table class="table table-striped" *ngIf="data.total != 0">
       <thead>
         <tr>
           <th scope="col">Tipo</th>
@@ -20,15 +20,14 @@
             <span *ngIf="movement.movementType == 'TRANSFERRED_FROM'">Transferencia de</span>
           </td>
           <td>
-            <span *ngIf="movement.movementType == 'TRANSFERRED_TO' || movement.movementType == 'WITHDRAW'">-</span>
-            {{movement.amount}}
+            <span *ngIf="movement.movementType == 'TRANSFERRED_TO' || movement.movementType == 'WITHDRAW'">-</span>{{movement.amount}}
           </td>
           <td>{{movement.createdAt | date:'yyyy-MM-dd HH:mm:ss'}}</td>
         </tr>
       </tbody>
   </table>
   <div class="container">
-    <div class="row" *ngIf="movements.rows">
+    <div class="row" *ngIf="data.total != 0">
       <div class="col">
         <div class="me-auto pt-1">{{ movements?.length || '0' }} registros de {{data.total}}</div>      
       </div>
@@ -41,7 +40,7 @@
         <pagination-controls class="float-lg-end" (pageChange)="getMovements($event)" previousLabel="Prev" nextLabel="Sig"></pagination-controls>
       </div>
     </div>
-    <div *ngIf="!movements.rows" class="text-center d-block">
+    <div *ngIf="data.total == 0" class="text-center d-block">
       <div class="pt-5 pb-5"><strong>No tienes movimientos</strong></div>
     </div>
   </div>
