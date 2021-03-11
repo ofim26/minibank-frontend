@@ -44,7 +44,7 @@ export class WithdrawMoneyComponent implements OnInit {
       userId: localStorage.getItem('userId'),
       amount: this.form.controls.amount.value
     }
-    if(parseInt(balance.amount) <= 0){
+    if(parseFloat(balance.amount) <= 0){
       this.openSnackBar("El monto no puede ser igual o menor a cero", "X")
     } else{
       this.balanceService.withdraw(balance).subscribe(

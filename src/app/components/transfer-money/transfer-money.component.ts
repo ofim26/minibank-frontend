@@ -61,10 +61,13 @@ export class TransferMoneyComponent implements OnInit {
           this.openSnackBar("Transferencia realizada exitosamente", "X")
         },
         err => {
-          if(err.error.message === "USER_NOT_EXIST" && parseInt(this.actualBalance.slice(1)) < parseInt(this.form.controls.amount.value)){
-            this.openSnackBar("No tienes suficiente saldo para realizar la transferencia y el usuario de destino no usa MiniBank", "X")
-          } else if(err.error.message === "USER_NOT_EXIST"){
-            this.openSnackBar("El usuario de destino no usa MiniBank", "X")
+          let actualBalance = parseFloat(this.actualBalance.split(",").join("").slice(1))
+          if(err.error.message === "USER_NOT_EXIST"){
+            if(actualBalance < parseFloat(this.form.controls.amount.value)){
+              this.openSnackBar("No tienes suficiente saldo para realizar la transferencia y el usuario de destino no usa MiniBank", "X")
+            } else{
+              this.openSnackBar("El usuario de destino no usa MiniBank", "X")
+            } 
           } else if(err.error.message === "THE_AMOUNT_EXCEEDS_THE_BALANCE"){
             this.openSnackBar("No tienes suficiente saldo para realizar la transferencia", "X")
           }
