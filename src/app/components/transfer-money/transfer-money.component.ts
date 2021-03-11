@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BalanceService } from '../../services/balance.service'
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { FormBuilder, Validators, FormGroup, } from "@angular/forms";
 
 @Component({
   selector: 'app-transfer-money',
@@ -9,17 +10,17 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class TransferMoneyComponent implements OnInit {
   
-  dataTransfer = {
-    userId: localStorage.getItem('userId'),
-    amount: "",
-    rut: ""
-  }
   actualBalance = ""
   rutValidator = false
+  form: FormGroup = this.formBuilder.group({
+    amount: [, { validators: [Validators.required], updateOn: "change" }],
+    rut: [, { validators: [Validators.required], updateOn: "change" }],
+  });
 
   constructor(
     private balanceService: BalanceService,
-    private _snackBar: MatSnackBar) { }
+    private _snackBar: MatSnackBar,
+    private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.getBalance()
@@ -41,21 +42,26 @@ export class TransferMoneyComponent implements OnInit {
    * transfer
    */
   transfer(){
-    if(parseInt(this.dataTransfer.amount) <= 0){
+    const dataTransfer = {
+      userId: localStorage.getItem('userId'),
+      amount: this.form.controls.amount.value,
+      rut: this.form.controls.rut.value
+    }
+    if(parseInt(this.form.controls.amount.value) <= 0){
       this.openSnackBar("El monto no puede ser igual o menor a cero", "X")
     } else{
-      this.balanceService.transfer(this.dataTransfer).subscribe(
+      this.balanceService.transfer(dataTransfer).subscribe(
         res => {
-          this.dataTransfer.amount = ""
-          this.dataTransfer.rut = ""
           this.getBalance()
+          this.form.reset()
+          this.form.controls.amount.reset()
+          this.form.controls.amount.setValue(null)
+          this.form.controls.rut.reset()
+          this.form.controls.rut.setValue(null)
           this.openSnackBar("Transferencia realizada exitosamente", "X")
         },
         err => {
-          console.log(parseInt(this.actualBalance.slice(1)) < parseInt(this.dataTransfer.amount))
-          console.log(parseInt(this.actualBalance.slice(1)))
-          console.log(parseInt(this.dataTransfer.amount))
-          if(err.error.message === "USER_NOT_EXIST" && parseInt(this.actualBalance.slice(1)) < parseInt(this.dataTransfer.amount)){
+          if(err.error.message === "USER_NOT_EXIST" && parseInt(this.actualBalance.slice(1)) < parseInt(this.form.controls.amount.value)){
             this.openSnackBar("No tienes suficiente saldo para realizar la transferencia y el usuario de destino no usa MiniBank", "X")
           } else if(err.error.message === "USER_NOT_EXIST"){
             this.openSnackBar("El usuario de destino no usa MiniBank", "X")
@@ -73,10 +79,11 @@ export class TransferMoneyComponent implements OnInit {
    * @param rutString 
    */
   rv(){
-    if(!this.dataTransfer.rut.includes("-") && this.dataTransfer.rut != ""){
-      this.dataTransfer.rut = this.dataTransfer.rut.slice(0,-1) + "-" + this.dataTransfer.rut.slice(-1)
+    let rut:string = this.form.controls.rut.value
+    if(!rut.includes("-") && rut != ""){
+      rut = rut.slice(0,-1) + "-" + rut.slice(-1)
     }
-    this.rutValidator = this.checkRut(this.dataTransfer.rut)
+    this.rutValidator = this.checkRut(rut)
   }
 
   /**

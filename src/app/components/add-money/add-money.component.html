@@ -10,16 +10,16 @@
     </mat-card-title>
     <mat-divider></mat-divider>
     <mat-card-content>
-        <form class="example-form" (submit)="add()">
+        <form class="example-form" [formGroup]="form" (submit)="add()">
             <br>
             <div>
-                <mat-form-field appearance="fill" class="full-width pt-field">
+                <mat-form-field [formGroup]="form" appearance="fill" class="full-width pt-field">
                     <mat-label for="amount">Monto</mat-label>
-                    <input matInput [(ngModel)]="balance.amount" maxlength="50" min="0" type="number" name="amount" #amount="ngModel" id="amount" placeholder="0" required>
-                    <mat-error *ngIf="amount.invalid && (amount.touched)">Ingrese un monto superior a cero</mat-error>
+                    <input matInput  formControlName="amount" maxlength="50" min="0" type="number" name="amount" id="amount" placeholder="0" required>
+                    <mat-error *ngIf="form.controls.amount.invalid">Ingrese un monto superior a cero</mat-error>
                 </mat-form-field>
             </div>
-            <button [disabled]="amount.invalid" mat-raised-button color="primary" class="full-width mt-field">Cargar</button>
+            <button [disabled]="form.controls.amount.invalid || !form.controls.amount" mat-raised-button color="primary" class="full-width mt-field">Cargar</button>
         </form>
     </mat-card-content>
 </mat-card>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BalanceService } from '../../services/balance.service'
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { FormBuilder, Validators, FormGroup, } from "@angular/forms";
 
 @Component({
   selector: 'app-withdraw-money',
@@ -9,15 +10,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class WithdrawMoneyComponent implements OnInit {
 
-  balance = {
-    userId: localStorage.getItem('userId'),
-    amount: ""
-  }
   actualBalance = ""
-
+  form: FormGroup = this.formBuilder.group({
+    amount: [, { validators: [Validators.required], updateOn: "change" }],
+  });
   constructor(
     private balanceService: BalanceService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private formBuilder: FormBuilder
   ) { }
 
   ngOnInit(): void {
@@ -40,14 +40,19 @@ export class WithdrawMoneyComponent implements OnInit {
    * withdraw
    */
   withdraw(){
-    if(parseInt(this.balance.amount) <= 0){
+    const balance = {
+      userId: localStorage.getItem('userId'),
+      amount: this.form.controls.amount.value
+    }
+    if(parseInt(balance.amount) <= 0){
       this.openSnackBar("El monto no puede ser igual o menor a cero", "X")
     } else{
-      this.balanceService.withdraw(this.balance).subscribe(
+      this.balanceService.withdraw(balance).subscribe(
         res => {
-          this.balance.amount = ""
           this.getBalance()
           this.openSnackBar("Retiro realizado exitosamente", "X")
+          this.form.reset()
+          this.form.controls.amount.setValue(null)
         },
         err => {
           if(err.error.message === "THE_AMOUNT_EXCEEDS_THE_BALANCE"){
