@@ -23,3 +23,7 @@
 .cursor-pointer{
     cursor: pointer;
 }
+.logo{
+    width: 170px;
+    margin-bottom: 30px !important;
+}
