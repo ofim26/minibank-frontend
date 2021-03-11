@@ -20,6 +20,6 @@
 .mt-field{
     margin-top: 8px;
 }
-/* body {  
-    background-image: url(https://st3.depositphotos.com/3213441/17694/v/450/depositphotos_176947014-stock-illustration-money-seamless-pattern-line-style.jpg); 
-}  */
+.cursor-pointer{
+    cursor: pointer;
+}

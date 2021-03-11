@@ -23,9 +23,8 @@
                 <mat-form-field [formGroup]="form" appearance="fill" class="full-width pt-field">
                     <mat-label for="password">Rut</mat-label>
                     <input matInput formControlName="rut" type="text" (blur)="rv()" maxlength="50" name="rut" id="rut" required>
-                    <mat-error *ngIf="form.controls.rut.invalid && form.controls.rut.touched">Ingresa un Rut valido</mat-error>
-                    <mat-hint>Ej: 11293307-7</mat-hint>
-                    <div class="mat-form-field-subscript-wrapper rut-validator" *ngIf="form.controls.rut.touched && !rutValidator">
+                    <mat-hint *ngIf="(form.controls.rut.untouched) || (rutValidator)">Ej: 11293307-7</mat-hint>
+                    <div class="mat-form-field-subscript-wrapper rut-validator" *ngIf="(form.controls.rut.invalid && form.controls.rut.touched) || ((form.controls.rut.touched) && !rutValidator)">
                         <div class="ng-tns-c118-2 ng-trigger ng-trigger-transitionMessages ng-star-inserted">
                             <mat-error role="alert" class="mat-error ng-tns-c118-1 ng-star-inserted">Ingresa un rut valido</mat-error>
                         </div>

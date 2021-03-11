@@ -36,7 +36,7 @@ export class MovementsComponent implements OnInit {
    */
   getMovements(page:any){
     let pageIndex:number = page.pageIndex
-    this.data.currentPage = !pageIndex ? 0 :pageIndex;
+    this.data.currentPage = !pageIndex ? 0 : pageIndex;
     this.balanceService.getMovements(this.data).subscribe(
     res => {
       this.dataSource = res.rows

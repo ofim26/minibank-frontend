@@ -18,9 +18,9 @@
                     <mat-label for="password">Ingresa tu contraseña</mat-label>
                     <input matInput [type]="hide ? 'password' : 'text'" [(ngModel)]="user.password" maxlength="50" name="uaser.password"  #password="ngModel" id="password" required>
                     <mat-error *ngIf="password.invalid && (password.touched)">Ingresa tu contraseña</mat-error>
-                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                    <div mat-icon-button matSuffix (click)="hide = !hide" (keyup.enter)="hide = true" class="cursor-pointer">
                         <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                    </button>
+                    </div>
                 </mat-form-field>
             </div>
             <button [disabled]="password.invalid || email.invalid" mat-raised-button color="primary" class="full-width mt-field">Ingresar</button>
