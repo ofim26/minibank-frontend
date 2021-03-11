@@ -45,5 +45,4 @@ export class MovementsComponent implements OnInit {
       err => console.log(err)
     )
   }
-
 }
