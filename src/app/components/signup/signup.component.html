@@ -24,6 +24,7 @@
                 <mat-form-field appearance="fill" class="full-width pt-field">
                     <mat-label for="password">Rut</mat-label>
                     <input matInput type="text" [(ngModel)]="user.rut" (blur)="rv()" maxlength="50" name="uaser.rut"  #rut="ngModel" id="rut" required>
+                    <mat-hint>Ej: 11293307-7</mat-hint>
                     <mat-error *ngIf="rut.invalid && rut.touched && !rut">Ingresa un Rut valido</mat-error>
                     <div class="mat-form-field-subscript-wrapper rut-validator" *ngIf="rut.touched && !rutValidator">
                         <div class="ng-tns-c118-2 ng-trigger ng-trigger-transitionMessages ng-star-inserted">
@@ -42,6 +43,7 @@
                     </button>
                 </mat-form-field>
             </div>
+            <mat-card-subtitle class="text-small">Todos los campos son obligatorios*</mat-card-subtitle>
             <button [disabled]="email.invalid || name.invalid || password.invalid || rut.invalid" mat-raised-button color="primary" class="full-width mt-field">Crear cuenta</button>
         </form>
     </mat-card-content>
