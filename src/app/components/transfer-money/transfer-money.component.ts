@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { BalanceService } from '../../services/balance.service'
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-transfer-money',
   templateUrl: './transfer-money.component.html',
-  styleUrls: ['./transfer-money.component.sass']
+  styleUrls: ['./transfer-money.component.css']
 })
 export class TransferMoneyComponent implements OnInit {
   
@@ -14,22 +15,14 @@ export class TransferMoneyComponent implements OnInit {
     rut: ""
   }
   actualBalance = ""
-  alertMessage = ""
-  alertState = false
-  alertType = "success"
   rutValidator = false
 
-  constructor(private balanceService: BalanceService) { }
+  constructor(
+    private balanceService: BalanceService,
+    private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.getBalance()
-  }
-
-  /**
-   * alertClose
-   */
-  alertClose(){
-    this.alertState = false
   }
 
   /**
@@ -48,26 +41,31 @@ export class TransferMoneyComponent implements OnInit {
    * transfer
    */
   transfer(){
-    this.balanceService.transfer(this.dataTransfer).subscribe(
-      res => {
-        this.getBalance()
-        this.alertMessage = "Transferencia realizada exitosamente :D"
-        this.alertState = true
-        this.alertType = 'success'
-      },
-      err => {
-        this.alertState = true
-        this.alertType = 'danger'
-        if(err.error.message === "USER_NOT_EXIST" && parseInt(this.actualBalance.slice(1)) < parseInt(this.dataTransfer.amount)){
-          this.alertMessage = "No tienes suficiente saldo para realizar la transferencia y el usuario de destino no usa MiniBank"
-        } else if(err.error.message === "USER_NOT_EXIST"){
-          this.alertMessage = "El usuario de destino no usa MiniBank"
-        } else if(err.error.message === "THE_AMOUNT_EXCEEDS_THE_BALANCE"){
-          this.alertMessage = "No tienes suficiente saldo para realizar la transferencia"
+    if(parseInt(this.dataTransfer.amount) <= 0){
+      this.openSnackBar("El monto no puede ser igual o menor a cero", "X")
+    } else{
+      this.balanceService.transfer(this.dataTransfer).subscribe(
+        res => {
+          this.dataTransfer.amount = ""
+          this.dataTransfer.rut = ""
+          this.getBalance()
+          this.openSnackBar("Transferencia realizada exitosamente", "X")
+        },
+        err => {
+          console.log(parseInt(this.actualBalance.slice(1)) < parseInt(this.dataTransfer.amount))
+          console.log(parseInt(this.actualBalance.slice(1)))
+          console.log(parseInt(this.dataTransfer.amount))
+          if(err.error.message === "USER_NOT_EXIST" && parseInt(this.actualBalance.slice(1)) < parseInt(this.dataTransfer.amount)){
+            this.openSnackBar("No tienes suficiente saldo para realizar la transferencia y el usuario de destino no usa MiniBank", "X")
+          } else if(err.error.message === "USER_NOT_EXIST"){
+            this.openSnackBar("El usuario de destino no usa MiniBank", "X")
+          } else if(err.error.message === "THE_AMOUNT_EXCEEDS_THE_BALANCE"){
+            this.openSnackBar("No tienes suficiente saldo para realizar la transferencia", "X")
+          }
+          console.log(err)
         }
-        console.log(err)
-      }
-    )
+      )
+    }
   }
 
   /**
@@ -105,4 +103,16 @@ export class TransferMoneyComponent implements OnInit {
     return S ? S - 1 : "k";
   };
 
+  /**
+   * openSnackBar
+   * 
+   * @param message 
+   * @param action 
+   */
+     openSnackBar(message: string, action: string) {
+      this._snackBar.open(message, action, {
+        duration: 10000,
+        verticalPosition: 'top'
+      });
+    }
 }

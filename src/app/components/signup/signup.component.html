@@ -1,13 +1,72 @@
-<div class="row">
+<mat-card class="card-with m-auto" >
+    <mat-card-title class="md-margin">
+        <p class="card-title">Regístrate</p>
+    </mat-card-title>
+    <mat-divider></mat-divider>
+    <mat-card-content>
+        <form class="example-form" (submit)="signUp()">
+            <br>
+            <div>
+                <mat-form-field appearance="fill" class="full-width pt-field">
+                    <mat-label for="email">Nombre</mat-label>
+                    <input matInput [(ngModel)]="user.name" maxlength="50" type="text" name="name" #name="ngModel" id="name" placeholder="name@example.com" required>
+                    <mat-error *ngIf="name.invalid && (name.touched)">Ingresa un nombre valido</mat-error>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field appearance="fill" class="full-width pt-field">
+                    <mat-label for="email">Correo electrónico</mat-label>
+                    <input matInput [(ngModel)]="user.email" maxlength="50" type="email" [email]="true" name="email" #email="ngModel" id="email" placeholder="name@example.com" required>
+                    <mat-error *ngIf="email.invalid && (email.touched)">Ingresa un email valido</mat-error>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field appearance="fill" class="full-width pt-field">
+                    <mat-label for="password">Rut</mat-label>
+                    <input matInput type="text" [(ngModel)]="user.rut" (blur)="rv()" maxlength="50" name="uaser.rut"  #rut="ngModel" id="rut" required>
+                    <mat-error *ngIf="rut.invalid && rut.touched && !rut">Ingresa un Rut valido</mat-error>
+                    <div class="mat-form-field-subscript-wrapper rut-validator" *ngIf="rut.touched && !rutValidator">
+                        <div class="ng-tns-c118-2 ng-trigger ng-trigger-transitionMessages ng-star-inserted">
+                            <mat-error role="alert" class="mat-error ng-tns-c118-1 ng-star-inserted">Ingresa un rut valido</mat-error>
+                        </div>
+                    </div>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field appearance="fill" class="full-width pt-field">
+                    <mat-label for="password">Contraseña</mat-label>
+                    <input matInput [type]="hide ? 'password' : 'text'" [(ngModel)]="user.password" maxlength="50" name="uaser.password"  #password="ngModel" id="password" required>
+                    <mat-error *ngIf="password.invalid && (password.touched)">Ingresa tu contraseña</mat-error>
+                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                </mat-form-field>
+            </div>
+            <button [disabled]="email.invalid || name.invalid || password.invalid || rut.invalid" mat-raised-button color="primary" class="full-width mt-field">Crear cuenta</button>
+        </form>
+    </mat-card-content>
+    <mat-divider></mat-divider>
+    <br>
+    <div class="text-center" >
+        <a routerLink="/signin" routerLinkActive="active">Ingresar</a>
+    </div>
+</mat-card>
+
+
+<!-- <div class="mb-3">
+    <label for="rut" class="form-label">Rut <span class="text-danger">*</span></label>
+    <input id="rut" name="rut" [(ngModel)]="user.rut" (blur)="rv()" #rut="ngModel" min="0" type="text" class="form-control" placeholder="00000000-0" required>
+    <p class="small mt-1 text-danger" *ngIf="rut.invalid && rut.touched && !rut">Ingrese un Rut valido</p>
+    <p class="small mt-1 text-danger" *ngIf="rut.touched && !rutValidator">Ingrese un Rut valido</p>
+</div> -->
+
+<!-- <div class="row">
     <div class="col-md-4 mx-auto">
         <div class="card">
             <div class="card-header">
                 <strong>Registro</strong>
             </div>
             <div class="card-body">
-                <div *ngIf="alertState" class="alert alert-dismissible fade show" [ngClass]="alertType === 'success' ? 'alert-success': 'alert-danger'" role="alert">
-                    {{alertMessage}}<button type="button" (click)="alertClose()" class="btn-close" aria-label="Close"></button>
-                </div>
                 <form (submit)="signUp()">
                     <div class="form-group">
                         <div class="mb-3">
@@ -17,7 +76,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="rut" class="form-label">Rut <span class="text-danger">*</span></label>
-                            <input id="rut" name="rut" [(ngModel)]="user.rut" (blur)="rv()" #rut="ngModel" min="0" type="text" (change)="alertState = false" class="form-control" placeholder="00000000-0" required>
+                            <input id="rut" name="rut" [(ngModel)]="user.rut" (blur)="rv()" #rut="ngModel" min="0" type="text" class="form-control" placeholder="00000000-0" required>
                             <p class="small mt-1 text-danger" *ngIf="rut.invalid && rut.touched && !rut">Ingrese un Rut valido</p>
                             <p class="small mt-1 text-danger" *ngIf="rut.touched && !rutValidator">Ingrese un Rut valido</p>
                         </div>
@@ -39,4 +98,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->

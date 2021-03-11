@@ -1,0 +1,25 @@
+.full-width {
+    width: 100%;
+}
+.card-with {
+    width: 400px;
+}
+.text-center{
+    text-align: center;
+}
+.m-auto{
+    margin: auto;
+}
+.card-title{
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+.pt-field{
+    padding-top: 8px;
+}
+.mt-field{
+    margin-top: 8px;
+}
+/* body {  
+    background-image: url(https://st3.depositphotos.com/3213441/17694/v/450/depositphotos_176947014-stock-illustration-money-seamless-pattern-line-style.jpg); 
+}  */

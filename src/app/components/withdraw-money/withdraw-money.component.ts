@@ -1,33 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 import { BalanceService } from '../../services/balance.service'
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-withdraw-money',
   templateUrl: './withdraw-money.component.html',
-  styleUrls: ['./withdraw-money.component.sass']
+  styleUrls: ['./withdraw-money.component.css']
 })
 export class WithdrawMoneyComponent implements OnInit {
 
   balance = {
     userId: localStorage.getItem('userId'),
-    amount: undefined
+    amount: ""
   }
   actualBalance = ""
-  alertMessage = ""
-  alertState = false
-  alertType = "success"
 
-  constructor(private balanceService: BalanceService) { }
+  constructor(
+    private balanceService: BalanceService,
+    private _snackBar: MatSnackBar
+  ) { }
 
   ngOnInit(): void {
     this.getBalance()
-  }
-
-  /**
-   * alertClose
-   */
-  alertClose(){
-    this.alertState = false
   }
 
   /**
@@ -46,21 +40,35 @@ export class WithdrawMoneyComponent implements OnInit {
    * withdraw
    */
   withdraw(){
-    this.balanceService.withdraw(this.balance).subscribe(
-      res => {
-        this.getBalance()
-        this.alertMessage = "Retiro realizado exitosamente :D"
-        this.alertState = true
-        this.alertType = 'success'
-      },
-      err => {
-        this.alertState = true
-        this.alertType = 'danger'
-        if(err.error.message === "THE_AMOUNT_EXCEEDS_THE_BALANCE"){
-          this.alertMessage = "No tienes suficiente saldo para realizar la transferencia"
+    if(parseInt(this.balance.amount) <= 0){
+      this.openSnackBar("El monto no puede ser igual o menor a cero", "X")
+    } else{
+      this.balanceService.withdraw(this.balance).subscribe(
+        res => {
+          this.balance.amount = ""
+          this.getBalance()
+          this.openSnackBar("Retiro realizado exitosamente", "X")
+        },
+        err => {
+          if(err.error.message === "THE_AMOUNT_EXCEEDS_THE_BALANCE"){
+            this.openSnackBar("No tienes suficiente saldo para realizar la transferencia", "X")
+          }
+          console.log(err)
         }
-        console.log(err)
-      }
-    )
+      ) 
+    }
+  }
+
+  /**
+   * openSnackBar
+   * 
+   * @param message 
+   * @param action 
+   */
+   openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 10000,
+      verticalPosition: 'top'
+    });
   }
 }

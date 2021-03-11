@@ -1,30 +1,25 @@
-<div class="row">
-    <div class="col-md-4 mx-auto">
-        <h1><span class="badge bg-success mb-3 pb-3 pt-3 container-fluid">Tu saldo  {{actualBalance}}</span></h1>
-        <div class="card">
-            <div class="card-header">
-                <strong>Carga de saldo</strong>
+<mat-card class="card-with m-auto card-color" >
+    <mat-card-title>
+        Tu saldo  {{actualBalance}}
+    </mat-card-title>
+</mat-card>
+<br>
+<mat-card class="card-with m-auto" >
+    <mat-card-title class="md-margin">
+        <p class="card-title">Cargar</p>
+    </mat-card-title>
+    <mat-divider></mat-divider>
+    <mat-card-content>
+        <form class="example-form" (submit)="add()">
+            <br>
+            <div>
+                <mat-form-field appearance="fill" class="full-width pt-field">
+                    <mat-label for="amount">Monto</mat-label>
+                    <input matInput [(ngModel)]="balance.amount" maxlength="50" min="0" type="number" name="amount" #amount="ngModel" id="amount" placeholder="0" required>
+                    <mat-error *ngIf="amount.invalid && (amount.touched)">Ingrese un monto superior a cero</mat-error>
+                </mat-form-field>
             </div>
-            <div class="card-body">
-                <div *ngIf="alertState" class="alert alert-success alert-dismissible fade show" role="alert">
-                    {{alertMessage}}<button type="button" (click)="alertClose()" class="btn-close" aria-label="Close"></button>
-                </div>
-                <form (submit)="add()">
-                    <div class="form-group">
-                        <div class="mb-3">
-                            <label for="amount" class="form-label">Monto <span class="text-danger">*</span></label>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text" id="basic-addon1">$</span>
-                                <input id="amount" name="amount" [(ngModel)]="balance.amount" #amount="ngModel" min="0" type="number" (change)="alertState = false" class="form-control" placeholder="0" required>
-                            </div>
-                            <p class="small mt-2 text-danger" *ngIf="amount.invalid && (amount.touched)">Ingrese un monto superior a cero</p>
-                        </div>
-                        <div class="d-grid gap-2">
-                            <button class="btn btn-primary" [disabled]="!balance.amount">Cargar</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+            <button [disabled]="amount.invalid" mat-raised-button color="primary" class="full-width mt-field">Cargar</button>
+        </form>
+    </mat-card-content>
+</mat-card>

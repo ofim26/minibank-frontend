@@ -1,37 +1,31 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service'
 import { Router } from '@angular/router'
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-signin',
   templateUrl: './signin.component.html',
-  styleUrls: ['./signin.component.sass']
+  styleUrls: ['./signin.component.css']
 })
 export class SigninComponent implements OnInit {
-
+  hide = true
   user = {
-    name: "",
-    rut: "",
     email: "",
     password: ""
   }
-  alertMessage = ""
-  alertState = false
 
   constructor(
     private authService: AuthService,
-    private router: Router) { }
+    private router: Router,
+    private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
   }
-
-  /**
-   * alertClose
-   */
-  alertClose(){
-    this.alertState = false
-  }
   
+  /**
+   * signIn
+   */
   signIn(){
     this.authService.signIn(this.user).subscribe(
       res => {
@@ -40,10 +34,22 @@ export class SigninComponent implements OnInit {
         this.router.navigate(['/add-money']);
       },
       err => {
-        this.alertState = true
-        this.alertMessage = "Tu usuario o contraseña son incorrectos"
+        this.openSnackBar("Tu usuario o contraseña son incorrectos", "X")
         console.log(err)
       }
     )
+  }
+
+  /**
+   * openSnackBar
+   * 
+   * @param message 
+   * @param action 
+   */
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 10000,
+      verticalPosition: 'top'
+    });
   }
 }

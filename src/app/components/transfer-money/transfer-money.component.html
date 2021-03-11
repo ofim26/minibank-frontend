@@ -1,4 +1,42 @@
-<div class="row">
+<mat-card class="card-with m-auto card-color" >
+    <mat-card-title>
+        Tu saldo  {{actualBalance}}
+    </mat-card-title>
+</mat-card>
+<br>
+<mat-card class="card-with m-auto" >
+    <mat-card-title class="md-margin">
+        <p class="card-title">Transferir</p>
+    </mat-card-title>
+    <mat-divider></mat-divider>
+    <mat-card-content>
+        <form class="example-form" (submit)="transfer()">
+            <br>
+            <div>
+                <mat-form-field appearance="fill" class="full-width pt-field">
+                    <mat-label for="amount">Monto</mat-label>
+                    <input matInput [(ngModel)]="dataTransfer.amount" maxlength="50" min="0" type="number" name="amount" #amount="ngModel" id="amount" placeholder="0" required>
+                    <mat-error *ngIf="amount.invalid && (amount.touched)">Ingrese un monto superior a cero</mat-error>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field appearance="fill" class="full-width pt-field">
+                    <mat-label for="password">Rut</mat-label>
+                    <input matInput type="text" [(ngModel)]="dataTransfer.rut" (blur)="rv()" maxlength="50" name="uaser.rut"  #rut="ngModel" id="rut" required>
+                    <mat-error *ngIf="rut.invalid && rut.touched && !rut">Ingresa un Rut valido</mat-error>
+                    <div class="mat-form-field-subscript-wrapper rut-validator" *ngIf="rut.touched && !rutValidator">
+                        <div class="ng-tns-c118-2 ng-trigger ng-trigger-transitionMessages ng-star-inserted">
+                            <mat-error role="alert" class="mat-error ng-tns-c118-1 ng-star-inserted">Ingresa un rut valido</mat-error>
+                        </div>
+                    </div>
+                </mat-form-field>
+            </div>
+            <button [disabled]="amount.invalid || !rutValidator || rut.invalid" mat-raised-button color="primary" class="full-width mt-field">Transferir</button>
+        </form>
+    </mat-card-content>
+</mat-card>
+
+<!-- <div class="row">
     <div class="col-md-4 mx-auto">
         <h1><span class="badge bg-success mb-3 pb-3 pt-3 container-fluid">Tu saldo  {{actualBalance}}</span></h1>
         <div class="card">
@@ -33,4 +71,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->

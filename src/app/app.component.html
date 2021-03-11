@@ -1,44 +1,18 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container">
-    <a class="navbar-brand">MiniBank</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <ng-container *ngIf="authService.loggedIn()">
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/add-money" routerLinkActive="active">Carga de saldo</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/withdraw-money" routerLinkActive="active">Retiro de saldo</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/transfer-money" routerLinkActive="active">Transferencia</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/movements" routerLinkActive="active">Listado de movimientos</a>
-          </li>
-        </ng-container>
-      </ul>
-      <ul class="navbar-nav">
-        <ng-container *ngIf="!authService.loggedIn(); else loggedIn">
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/signin" routerLinkActive="active">Ingresar</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/signup" routerLinkActive="active">Registro</a>
-          </li>
-        </ng-container>
-        <ng-template #loggedIn>
-          <li class="nav-item">
-            <a class="nav-link" style="cursor: pointer;" (click)="authService.logout()">Salir</a>
-          </li>
-        </ng-template>
-      </ul>
+<p *ngIf="authService.loggedIn()">
+  <mat-toolbar class="bg-color">
+    <div class="container">
+      <span>MiniBank</span>
+      <span class="example-spacer"></span>
+      &nbsp;
+      <a mat-button routerLink="/add-money" routerLinkActive="active">Carga de saldo</a>
+      <a mat-button routerLink="/withdraw-money" routerLinkActive="active">Retiro de saldo</a>
+      <a mat-button routerLink="/transfer-money" routerLinkActive="active">Transferencia</a>
+      <a mat-button routerLink="/movements" routerLinkActive="active">Listado de movimientos</a>
+      
+      <a mat-button class="float-right " style="cursor: pointer;" (click)="authService.logout()">Salir</a>
     </div>
-  </div>
-</nav>
+  </mat-toolbar>
+</p>
 <div class="container pt-5">
   <router-outlet></router-outlet>
 </div>

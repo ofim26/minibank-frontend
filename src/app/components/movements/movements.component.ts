@@ -5,33 +5,45 @@ import { Router } from '@angular/router'
 @Component({
   selector: 'app-movements',
   templateUrl: './movements.component.html',
-  styleUrls: ['./movements.component.sass']
+  styleUrls: ['./movements.component.css']
 })
 export class MovementsComponent implements OnInit {
   movements:any = []
+  displayedColumns: string[] = ['movementType', 'amount', 'createdAt'];
+  dataSource = [];
+  currentPage = 0
   data = {
     userId: localStorage.getItem('userId'),
     itemsPerPage: 10,
     currentPage: 0,
     total: 0
   }
-
+  
   constructor(
     private balanceService: BalanceService,
     private router: Router) { }
-
+  
+  /**
+   * 
+   */
   ngOnInit(): void {
     this.getMovements(this.data.currentPage)
   }
 
-  getMovements(page:number){
-    this.data.currentPage = page;
+  /**
+   * 
+   * @param page 
+   */
+  getMovements(page:any){
+    let pageIndex:number = page.pageIndex
+    this.data.currentPage = !pageIndex ? 1 :pageIndex;
     this.balanceService.getMovements(this.data).subscribe(
-      res => {
-        this.movements = res.rows
-        this.data.total = res.count
-      },
-        err => console.log(err)
-      )
-    }
+    res => {
+      this.dataSource = res.rows
+      this.data.total = res.count
+    },
+      err => console.log(err)
+    )
   }
+
+}
