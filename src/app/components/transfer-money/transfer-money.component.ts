@@ -83,8 +83,10 @@ export class TransferMoneyComponent implements OnInit {
    */
   rv(){
     let rut:string = this.form.controls.rut.value
+    console.log(1, rut)
     if(!rut.includes("-") && rut != ""){
-      rut = rut.slice(0,-1) + "-" + rut.slice(-1)
+      this.form.controls.rut.setValue(rut.slice(0,-1) + "-" + rut.slice(-1))
+      console.log(2, rut)
     }
     this.rutValidator = this.checkRut(rut)
   }
